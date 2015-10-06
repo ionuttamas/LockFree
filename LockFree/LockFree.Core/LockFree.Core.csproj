@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Stack\LockFreeStack.cs" />
+    <Compile Include="Stack\Stack.cs" />
     <Compile Include="Stack\Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

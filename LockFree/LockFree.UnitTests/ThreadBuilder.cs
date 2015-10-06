@@ -38,6 +38,8 @@ namespace LockFree.UnitTests
             {
                 thread.Join();
             }
+
+            Threads.Clear();
         }
     }
 }

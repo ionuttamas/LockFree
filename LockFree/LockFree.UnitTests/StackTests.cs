@@ -22,7 +22,7 @@ namespace LockFree.UnitTests
             int initialValue = -1;
             int currentValue = initialValue;
             ConcurrentDictionary<int, int> table = new ConcurrentDictionary<int, int>();
-            LockFreeStack<int> stack = new LockFreeStack<int>(initialValue);
+            Core.Stack.Stack<int> stack = new Core.Stack.Stack<int>(initialValue);
 
             ThreadBuilder
                 .Empty()
@@ -57,7 +57,37 @@ namespace LockFree.UnitTests
         [TestCase(40, 1500000, 850000)]
         public void Stack_WithHighThreadCount_WorksCorrectly(int threads, int pushes, int pops)
         {
-            int expectedCount = pushes - pops;
+            //The elements we insert are unique and sentinel value is -1
+            int initialValue = -1;
+            int currentValue = initialValue;
+            ConcurrentDictionary<int, int> table = new ConcurrentDictionary<int, int>();
+            Core.Stack.Stack<int> stack = new Core.Stack.Stack<int>(initialValue);
+
+            ThreadBuilder
+                .Empty()
+                .AddThreads(() =>
+                {
+                    for (int i = 0; i < pushes; i++)
+                    {
+                        int value = Interlocked.Increment(ref currentValue);
+                        stack.Push(value);
+                    }
+                }, threads)
+                .AddThreads(() =>
+                {
+                    for (int i = 0; i < pops; i++)
+                    {
+                        int value = stack.Pop();
+                        table.AddOrUpdate(value, x => 1, (k, v) => v + 1);
+                    }
+                }, threads)
+                .Start();
+
+            //The sentinel value can be returned more than once if queue is empty at the time of a pop
+            int expectedPops = table.Keys.Count + (table.ContainsKey(initialValue) ? -1 : 0);
+            int actualPops = table.Count(x => x.Key != initialValue && x.Value == 1);
+
+            Assert.AreEqual(expectedPops, actualPops);
         }
     }
 }

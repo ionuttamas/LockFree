@@ -2,16 +2,16 @@ using LockFree.Common;
 
 namespace LockFree.Core.Stack
 {
-    public class LockFreeStack<T>
+    public class Stack<T>
     {
         private readonly Node<T> _head;
 
-        public LockFreeStack()
+        public Stack()
         {
             _head = new Node<T>();
         }
 
-        public LockFreeStack(T item)
+        public Stack(T item)
         {
             _head = new Node<T>(item);
         }
@@ -19,7 +19,7 @@ namespace LockFree.Core.Stack
         public void Push(T item)
         {
             Node<T> node = new Node<T>(item);
-
+              
             do
             {
                 node.Next = _head.Next;
