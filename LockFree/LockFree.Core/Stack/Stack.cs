@@ -4,16 +4,16 @@ namespace LockFree.Core.Stack
 {
     public class Stack<T>
     {
-        private readonly Node<T> _head;
+        private readonly Node<T> _top;
 
         public Stack()
         {
-            _head = new Node<T>();
+            _top = new Node<T>();
         }
 
         public Stack(T item)
         {
-            _head = new Node<T>(item);
+            _top = new Node<T>(item);
         }
 
         public void Push(T item)
@@ -22,8 +22,8 @@ namespace LockFree.Core.Stack
               
             do
             {
-                node.Next = _head.Next;
-            } while (!Atomic.CAS(ref _head.Next, node.Next, node));
+                node.Next = _top.Next;
+            } while (!Atomic.CAS(ref _top.Next, node.Next, node));
         }
 
         public T Pop()
@@ -32,12 +32,12 @@ namespace LockFree.Core.Stack
 
             do
             {
-                next = _head.Next; 
+                next = _top.Next; 
 
                 if (next == null)
-                    return _head.Value;
+                    return _top.Value;
 
-            } while (!Atomic.CAS(ref _head.Next, next, next.Next));
+            } while (!Atomic.CAS(ref _top.Next, next, next.Next));
 
             return next.Value;
         }

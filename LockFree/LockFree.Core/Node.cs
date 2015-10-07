@@ -1,4 +1,4 @@
-﻿namespace LockFree.Core.Stack
+﻿namespace LockFree.Core
 {
     public class Node<T>  
     {

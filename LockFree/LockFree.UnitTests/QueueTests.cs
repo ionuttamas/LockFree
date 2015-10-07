@@ -9,42 +9,55 @@ using NUnit.Framework;
 namespace LockFree.UnitTests
 {
     [TestFixture]
-    public class StackTests 
+    public class QueueTests
     {
-        [TestCase(1, 100, 60)]
-        [TestCase(1, 1000, 500)]
-        [TestCase(2, 10000, 5000)]
-        [TestCase(2, 100000, 25000)]
-        [TestCase(4, 150000, 85000)]
-        public void Stack_WithLowThreadCount_WorksCorrectly(int threads, int pushes, int pops)
+        [TestCase(2, 100, 50)]
+        //[TestCase(1, 100, 60)]
+        //[TestCase(1, 1000, 500)]
+        //[TestCase(2, 10000, 5000)]
+        //[TestCase(2, 100000, 25000)]
+        //[TestCase(4, 150000, 85000)]
+        public void Queue_WithLowThreadCount_WorksCorrectly(int threads, int enqueues, int dequeues)
         {
             //The elements we insert are unique and sentinel value is -1
             int initialValue = -1;
             int currentValue = initialValue;
             ConcurrentDictionary<int, int> table = new ConcurrentDictionary<int, int>();
-            Core.Stack.Stack<int> stack = new Core.Stack.Stack<int>(initialValue);
+            Core.Queue.Queue<int> queue = new Core.Queue.Queue<int>(initialValue);
+
+            queue.Enqueue(1);
+            queue.Enqueue(2);
+            queue.Enqueue(3);
+            queue.Dequeue();
+            queue.Dequeue();
+            queue.Dequeue();
+            queue.Enqueue(3);
+            queue.Enqueue(4);
+            queue.Dequeue();
 
             ThreadBuilder
                 .Empty()
                 .AddThreads(() =>
                 {
-                    for (int i = 0; i < pushes; i++)
+                    for (int i = 0; i < enqueues; i++)
                     {
                         int value = Interlocked.Increment(ref currentValue);
-                        stack.Push(value);
+                        queue.Enqueue(value);
+                        Console.WriteLine("Enq "+value);
                     }
                 }, threads)
                 .AddThreads(() =>
                 {
-                    for (int i = 0; i < pops; i++)
+                    for (int i = 0; i < dequeues; i++)
                     {
-                        int value = stack.Pop();
+                        int value = queue.Dequeue();
                         table.AddOrUpdate(value, x => 1, (k, v) => v + 1);
+                        Console.WriteLine("Deq " + value);
                     }
                 }, threads)
                 .Start();
 
-            //The sentinel value can be returned more than once if stack is empty at the time of a pop
+            //The sentinel value can be returned more than once if queue is empty at the time of a pop
             int expectedPops = table.Keys.Count + (table.ContainsKey(initialValue) ? -1 : 0);
             int actualPops = table.Count(x => x.Key != initialValue && x.Value == 1);
           
@@ -55,35 +68,35 @@ namespace LockFree.UnitTests
         [TestCase(20, 100000, 50000)]
         [TestCase(20, 1000000, 250000)]
         [TestCase(40, 1500000, 850000)]
-        public void Stack_WithHighThreadCount_WorksCorrectly(int threads, int pushes, int pops)
+        public void Stack_WithHighThreadCount_WorksCorrectly(int threads, int enqueues, int dequeues)
         {
             //The elements we insert are unique and sentinel value is -1
             int initialValue = -1;
             int currentValue = initialValue;
             ConcurrentDictionary<int, int> table = new ConcurrentDictionary<int, int>();
-            Core.Stack.Stack<int> stack = new Core.Stack.Stack<int>(initialValue);
+            Core.Queue.Queue<int> queue = new Core.Queue.Queue<int>(initialValue);
 
             ThreadBuilder
                 .Empty()
                 .AddThreads(() =>
                 {
-                    for (int i = 0; i < pushes; i++)
+                    for (int i = 0; i < enqueues; i++)
                     {
                         int value = Interlocked.Increment(ref currentValue);
-                        stack.Push(value);
+                        queue.Enqueue(value);
                     }
                 }, threads)
                 .AddThreads(() =>
                 {
-                    for (int i = 0; i < pops; i++)
+                    for (int i = 0; i < dequeues; i++)
                     {
-                        int value = stack.Pop();
+                        int value = queue.Dequeue();
                         table.AddOrUpdate(value, x => 1, (k, v) => v + 1);
                     }
                 }, threads)
                 .Start();
 
-            //The sentinel value can be returned more than once if queue is stack at the time of a pop
+            //The sentinel value can be returned more than once if queue is empty at the time of a pop
             int expectedPops = table.Keys.Count + (table.ContainsKey(initialValue) ? -1 : 0);
             int actualPops = table.Count(x => x.Key != initialValue && x.Value == 1);
 
