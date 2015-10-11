@@ -40,14 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="List\List.cs" />
+    <Compile Include="List\Node.cs" />
+    <Compile Include="List\NodeReference.cs" />
     <Compile Include="Queue\Queue.cs" />
     <Compile Include="Stack\Stack.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="List\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\LockFree.Common\LockFree.Common.csproj">
       <Project>{5E0A6FCA-63AE-40DD-A40E-4C35846EF688}</Project>
