@@ -2,7 +2,7 @@
 {
     public class Node<T>
     {
-        public NodeReference<T> Reference;
+        public volatile NodeReference<T> Reference;
         
         public Node()
         {
