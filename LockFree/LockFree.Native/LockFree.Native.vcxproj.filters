@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="RMMethods.h">
+      <Filter>Headers\RM</Filter>
+    </ClInclude>
+    <ClInclude Include="RMBST.h">
+      <Filter>Headers\RM</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Headers\RM</Filter>
+    </ClInclude>
+    <ClInclude Include="BitUtils.h">
+      <Filter>Headers\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeUtils.h">
+      <Filter>Headers\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputUtils.h">
+      <Filter>Headers\Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{2cab42e3-c84e-46e7-800b-1452061bec49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{bbf5960f-ea7f-4944-b1f1-0b2373147592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\RM">
+      <UniqueIdentifier>{ed420711-ac96-406d-ac7e-f09f63c3e3da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Utils">
+      <UniqueIdentifier>{fdefb5fe-ad30-480b-8371-48bdd69cbe58}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

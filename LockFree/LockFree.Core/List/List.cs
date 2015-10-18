@@ -69,7 +69,7 @@ namespace LockFree.Core.List
                 oldReference = item.Reference;
                 next = item.Reference.Next;
 
-                if (next?.Reference == null)
+                if (next==null || next.Reference == null)
                 {
                     newReference = null;
                 }

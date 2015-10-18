@@ -2,6 +2,9 @@ using LockFree.Common;
 
 namespace LockFree.Core.Queue
 {
+    /// <summary>
+    /// Michael-Scott lock-free queue implementation.
+    /// </summary>
     public class Queue<T>
     {
         //Insert at tail and remove from head

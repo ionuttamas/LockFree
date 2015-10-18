@@ -1,0 +1,16 @@
+LockFree/LockFree.Common/bin/Debug/*
+LockFree/LockFree.Common/obj/*
+LockFree/LockFree.Core/obj/*
+LockFree/LockFree.Native/Debug/*
+LockFree/LockFree.UnitTests/bin/*
+LockFree/LockFree.Core/bin/*
+LockFree/.vs/LockFree/v14/.suo
+LockFree/Debug/*
+LockFree/LockFree.opensdf
+LockFree/LockFree.sdf
+LockFree/LockFree.UnitTests/obj/*
+LockFree/packages/*
+LockFree/LockFree.v12.suo
+LockFree/Performance1.psess
+LockFree/Report20151018-1341.diagsession
+LockFree/Report20151018-1341.vspx
