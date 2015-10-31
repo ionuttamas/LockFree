@@ -6,8 +6,6 @@
 #include<time.h>
 #include<stdint.h> 
 #include<assert.h>
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_randist.h>
 
 //#define TBB
 #ifdef TBB
@@ -116,7 +114,7 @@ typedef struct executionRecord
 	int searchPercentage; //0-100 range
 	int insertPercentage; //0-100 range
 	int removePercentage; //0-100 range
-	int runTime; //in milliseconds
+	int runTime;		  //in milliseconds
 	int threadCount; 
 };
 

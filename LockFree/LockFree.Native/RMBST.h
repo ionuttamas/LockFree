@@ -38,6 +38,7 @@ bool insert(struct tArgs* t, unsigned long key)
 		seek(t, key, &t->targetRecord);
 		node = t->targetRecord.lastEdge.child;
 		nKey = getKey(node->markAndKey);
+
 		if (nKey == key)
 		{
 			t->unsuccessfulInserts++;
@@ -50,6 +51,7 @@ bool insert(struct tArgs* t, unsigned long key)
 			t->newNode = newLeafNode(key);
 			t->isNewNodeAvailable = true;
 		}
+
 		newNode = t->newNode;
 		newNode->markAndKey = key;
 		which = t->targetRecord.injectionEdge.which;
@@ -65,6 +67,7 @@ bool insert(struct tArgs* t, unsigned long key)
 		t->insertRetries++;
 
 		temp = node->child[which];
+
 		if (isDFlagSet(temp))
 		{
 			helpTargetNode(t, &t->targetRecord.lastEdge, 1);
@@ -114,6 +117,7 @@ bool remove(struct tArgs* t, unsigned long key)
 				return(true);
 			}
 		}
+
 		//perform appropriate action depending on the mode
 		if (myState->mode == INJECTION)
 		{
@@ -123,6 +127,7 @@ bool remove(struct tArgs* t, unsigned long key)
 			//attempt to inject the operation at the node
 			inject(t, myState);
 		}
+		
 		//mode would have changed if the operation was injected successfully
 		if (myState->mode != INJECTION)
 		{
@@ -160,5 +165,7 @@ bool remove(struct tArgs* t, unsigned long key)
 				myState->currentKey = nKey;
 			}
 		}
+
+		t->deleteRetries++;
 	}
 }

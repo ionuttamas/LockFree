@@ -64,6 +64,7 @@ __inline void seek(struct tArgs* t, unsigned long key, struct seekRecord* s)
 		curr = T;
 		anchorRecord->node = S;
 		anchorRecord->key = INF_S;
+
 		while (true)
 		{
 			t->seekLength++;
@@ -72,7 +73,11 @@ __inline void seek(struct tArgs* t, unsigned long key, struct seekRecord* s)
 			//find the next edge to follow
 			which = key<cKey ? LEFT : RIGHT;
 			temp = curr->child[which];
-			n = isNull(temp);	d = isDFlagSet(temp);	p = isPFlagSet(temp);	next = getAddress(temp);
+			n = isNull(temp);	
+			d = isDFlagSet(temp);	
+			p = isPFlagSet(temp);	
+			next = getAddress(temp);
+			
 			//check for completion of the traversal
 			if (key == cKey || n)
 			{
@@ -80,29 +85,29 @@ __inline void seek(struct tArgs* t, unsigned long key, struct seekRecord* s)
 				s->pLastEdge = pLastEdge;
 				s->lastEdge = lastEdge;
 				populateEdge(&s->injectionEdge, curr, next, which);
+
 				if (key == cKey)
-				{
-					//key matches. So return
 					return;
-				}
 				else
-				{
 					break;
-				}
 			}
+
 			if (which == RIGHT)
 			{
 				//the next edge that will be traversed is a right edge. Keep track of the current node and its key
 				anchorRecord->node = curr;
 				anchorRecord->key = cKey;
 			}
+
 			//traverse the next edge
 			pLastEdge = lastEdge;
 			populateEdge(&lastEdge, curr, next, which);
 			curr = next;
 		}
+
 		//key was not found. check if can stop
 		aKey = getKey(anchorRecord->node->markAndKey);
+
 		if (anchorRecord->key == aKey)
 		{
 			temp = anchorRecord->node->child[RIGHT];
