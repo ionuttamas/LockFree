@@ -73,6 +73,9 @@
     <ClInclude Include="OutputUtils.h" />
     <ClInclude Include="RMBST.h" />
     <ClInclude Include="RMMethods.h" />
+    <ClInclude Include="TIBST.h" />
+    <ClInclude Include="TIHeader.h" />
+    <ClInclude Include="TIMethods.h" />
     <ClInclude Include="TreeUtils.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-#include"RMBST.h"
+#include"TIBST.h"
 #include <iostream>
 #include <ctime>
 #include <iostream>

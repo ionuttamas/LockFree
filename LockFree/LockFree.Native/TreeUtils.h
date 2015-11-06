@@ -7,11 +7,19 @@ unsigned long numOfNodes;
  
 static inline bool CAS(struct node* parent, int which, struct node* oldChild, struct node* newChild)
 {
-#ifdef TBB
-	return parent->child[which].compare_and_swap(newChild, oldChild) == oldChild;
-#else
 	return parent->child[which].compare_exchange_strong(oldChild, newChild, std::memory_order_seq_cst);
-#endif
+}
+
+static inline struct node* newLeafNodeTI(unsigned long key)
+{
+	struct node* node = (struct node*) malloc(sizeof(struct node));
+	node->markAndKey = key;
+	node->child[LEFT] = setNull(NULL);
+	node->child[RIGHT] = setNull(NULL);
+	node->successor = setNull(NULL);
+	node->readyToReplace = false;
+
+	return node;
 }
 
 static inline struct node* newLeafNode(unsigned long key)
@@ -19,9 +27,10 @@ static inline struct node* newLeafNode(unsigned long key)
 	struct node* node = (struct node*) malloc(sizeof(struct node));
 	node->markAndKey = key;
 	node->child[LEFT] = setNull(NULL);
-	node->child[RIGHT] = setNull(NULL);
+	node->child[RIGHT] = setNull(NULL); 
 	node->readyToReplace = false;
-	return(node);
+	
+	return node;
 }
 
 void createHeadNodes()

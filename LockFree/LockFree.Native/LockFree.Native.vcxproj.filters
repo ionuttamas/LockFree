@@ -19,6 +19,15 @@
     <ClInclude Include="OutputUtils.h">
       <Filter>Headers\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="TIHeader.h">
+      <Filter>Headers\TI</Filter>
+    </ClInclude>
+    <ClInclude Include="TIBST.h">
+      <Filter>Headers\TI</Filter>
+    </ClInclude>
+    <ClInclude Include="TIMethods.h">
+      <Filter>Headers\TI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -32,6 +41,9 @@
     </Filter>
     <Filter Include="Headers\Utils">
       <UniqueIdentifier>{fdefb5fe-ad30-480b-8371-48bdd69cbe58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\TI">
+      <UniqueIdentifier>{c485a8a4-16e2-4ec9-be9f-e7d482f1d53a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

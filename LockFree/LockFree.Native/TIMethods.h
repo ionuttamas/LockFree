@@ -73,11 +73,11 @@ __inline void seek(struct tArgs* t, unsigned long key, struct seekRecord* s)
 			//find the next edge to follow
 			which = key<cKey ? LEFT : RIGHT;
 			temp = curr->child[which];
-			n = isNull(temp);	
-			d = isDFlagSet(temp);	
-			p = isPFlagSet(temp);	
+			n = isNull(temp);
+			d = isDFlagSet(temp);
+			p = isPFlagSet(temp);
 			next = getAddress(temp);
-			
+
 			//check for completion of the traversal
 			if (key == cKey || n)
 			{
@@ -483,13 +483,16 @@ __inline void removeSuccessor(struct tArgs* t, struct stateRecord* state)
 	//mark the right edge for promotion if unmarked
 	temp = successorEdge.child->child[RIGHT];
 	p = isPFlagSet(temp);
+	
 	if (!p)
 	{
 		//set the promote flag on the right edge
 		markChildEdge(t, state, RIGHT);
 	}
+
 	//promote the key
 	node->markAndKey = setReplaceFlagInKey(successorEdge.child->markAndKey);
+
 	while (true)
 	{
 		//check if the successor is the right child of the target node itself
@@ -501,9 +504,12 @@ __inline void removeSuccessor(struct tArgs* t, struct stateRecord* state)
 		{
 			dFlag = false; which = LEFT;
 		}
+
 		i = isIFlagSet(successorEdge.parent->child[which]);
 		temp = successorEdge.child->child[RIGHT];
-		n = isNull(temp);	right = getAddress(temp);
+		n = isNull(temp);	
+		right = getAddress(temp);
+
 		if (n)
 		{
 			//only set the null flag. do not change the address
@@ -569,10 +575,12 @@ __inline void removeSuccessor(struct tArgs* t, struct stateRecord* state)
 		{
 			break;
 		}
+
 		if (dFlag)
 		{
 			break;
 		}
+
 		temp = successorEdge.parent->child[which];
 		d = isDFlagSet(temp);
 		pLastEdge = s->pLastEdge;
@@ -624,7 +632,7 @@ __inline bool cleanup(struct tArgs* t, struct stateRecord* state)
 		left = getAddress(node->child[LEFT]);
 		newNode->child[LEFT] = left;
 		temp = node->child[RIGHT];
-		n = isNull(temp);	
+		n = isNull(temp);
 		right = getAddress(temp);
 
 		if (n)
@@ -652,7 +660,7 @@ __inline bool cleanup(struct tArgs* t, struct stateRecord* state)
 		}
 
 		temp = node->child[nWhich];
-		n = isNull(temp); 
+		n = isNull(temp);
 		address = getAddress(temp);
 
 		if (n)
