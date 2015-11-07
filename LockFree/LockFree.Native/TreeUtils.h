@@ -15,8 +15,7 @@ static inline struct node* newLeafNodeTI(unsigned long key)
 	struct node* node = (struct node*) malloc(sizeof(struct node));
 	node->markAndKey = key;
 	node->child[LEFT] = setNull(NULL);
-	node->child[RIGHT] = setNull(NULL);
-	node->successor = setNull(NULL);
+	node->child[RIGHT] = setNull(NULL); 
 	node->readyToReplace = false;
 
 	return node;

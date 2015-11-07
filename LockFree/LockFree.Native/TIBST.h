@@ -29,8 +29,7 @@ bool insert(struct tArgs* t, unsigned long key)
 	struct node* newNode;
 	struct node* address;
 	unsigned long nKey;
-	bool insertedResult;
-	bool predecessorResult;
+	bool insertedResult; 
 	int which;
 	struct node* temp;
 

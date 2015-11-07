@@ -8,7 +8,6 @@
 #include<assert.h> 
 #include <atomic> 
 
-
 #define K 2
 #define LEFT 0
 #define RIGHT 1
@@ -22,7 +21,6 @@
 
 #define NULL_BIT 8
 #define INJECT_BIT 4
-#define INJECT_BIT 3
 #define DELETE_BIT 2
 #define PROMOTE_BIT 1
 
@@ -30,48 +28,40 @@ typedef enum { INJECTION, DISCOVERY, CLEANUP } Mode;
 typedef enum { SIMPLE, COMPLEX } Type;
 typedef enum { DELETE_FLAG, PROMOTE_FLAG } Flag;
 
-
-struct node
-{ 
-	std::atomic<unsigned long> markAndKey;			//format <markFlag,address>
-	std::atomic<node*> child[K];					//format <address,NullBit,InjectFlag,DeleteFlag,PromoteFlag>
-	std::atomic<unsigned long> readyToReplace; 
-	std::atomic<node*> successor; 
-};
-
-struct edge
-{
-	struct node* parent;
-	struct node* child;
-	int which;
-};
-
-struct seekRecord
-{
-	struct edge lastEdge;
-	struct edge pLastEdge;
-	struct edge injectionEdge;
-};
-
-struct anchorRecord
-{
-	struct node* node;
-	unsigned long key;
-};
-
-struct stateRecord
+typedef struct treeData 
 {
 	int depth;
-	struct edge targetEdge;
-	struct edge pTargetEdge;
-	unsigned long targetKey;
-	unsigned long currentKey;
-	Mode mode;
-	Type type;
-	struct seekRecord successorRecord;
-};
+	unsigned long key;
+} treeData;
 
-struct tArgs
+typedef struct qnode
+{
+	std::atomic<qnode*> next;
+	treeData data;
+}qnode;
+
+typedef struct qroot
+{
+	std::atomic<qnode*> head; //Dequeue and peek will be performed from head
+	std::atomic<qnode*> tail; //Enqueue will be performed to tail
+}qroot;
+
+typedef struct node
+{ 
+	std::atomic<unsigned long> markAndKey;
+	std::atomic<node*> left;
+	std::atomic<node*> right;
+}node;
+
+typedef struct seekRecord
+{
+	node* target;
+	node* successor;
+	node* successorParent;
+	unsigned long key;
+}seekRecord;
+
+typedef struct tArgs
 {
 	int tId;
 	unsigned long lseed;
@@ -90,13 +80,10 @@ struct tArgs
 	struct node* newNode;
 	bool isNewNodeAvailable;
 	struct seekRecord targetRecord;
-	struct seekRecord pSeekRecord;
-	struct stateRecord myState;
-	struct anchorRecord anchorRecord;
-	struct anchorRecord pAnchorRecord;
+	struct seekRecord pSeekRecord; 
 	unsigned long seekRetries;
 	unsigned long seekLength;
-};
+}tArgs;
 
 typedef struct executionRecord
 {
@@ -108,10 +95,11 @@ typedef struct executionRecord
 	int threadCount;
 };
 
-void createHeadNodes();
 __inline bool search(struct tArgs*, unsigned long);
 __inline bool insert(struct tArgs*, unsigned long);
 __inline bool remove(struct tArgs*, unsigned long);
+
+void createHeadNodes();
 unsigned long size();
 void printKeys();
 bool isValidTree();
