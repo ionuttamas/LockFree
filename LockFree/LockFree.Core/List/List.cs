@@ -4,21 +4,18 @@ using LockFree.Common;
 
 namespace LockFree.Core.List
 {
-    public class List<T>:IEnumerable<T>
+    public class List<T> : IList<T>
     {
-        private readonly T _sentinel;
         private readonly Node<T> _head;
 
         public List()
         {
             _head = new Node<T>();
-            _sentinel = default(T);
         }
 
         public List(T item)
         {
             _head = new Node<T>(item);
-            _sentinel = item;
         }
 
         public void Add(T item)
@@ -83,26 +80,6 @@ namespace LockFree.Core.List
                 }
                 
             } while (!Atomic.CAS(ref item.Reference, oldReference, newReference));
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            Node<T> node = _head.Reference.Next;
-
-            while (node != null)
-            {
-                if (node.Reference == null)
-                    yield break;
-
-                yield return node.Reference.Value;
-
-                node = node.Reference.Next;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

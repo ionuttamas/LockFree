@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="List\FullBlockingList.cs" />
+    <Compile Include="List\IList.cs" />
     <Compile Include="List\List.cs" />
     <Compile Include="List\Node.cs" />
     <Compile Include="List\NodeReference.cs" />
